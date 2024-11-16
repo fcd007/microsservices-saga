@@ -1,14 +1,9 @@
 # Projeto - Arquitetura de Microsserviços: Padrão Saga Orquestrado
 
-Repositório contendo o projeto desenvolvido do curso Arquitetura de Microsserviços: Padrão Saga 
+Arquitetura de Microsserviços: Padrão Saga 
 Orquestrado.
 
-Para acessar o curso na plataforma, basta acessar esta URL: https://www.udemy.com/course/arquitetura-de-microsservicos-padrao-saga-orquestrado/
-
-![Arquitetura](Conte%C3%BAdos/Imagem%20Curso.png)
-
 ### Sumário:
-
 - [Projeto - Arquitetura de Microsserviços: Padrão Saga Orquestrado](#projeto---arquitetura-de-microsserviços-padrão-saga-orquestrado)
     - [Sumário:](#sumário)
   - [Tecnologias](#tecnologias)
@@ -30,7 +25,6 @@ Para acessar o curso na plataforma, basta acessar esta URL: https://www.udemy.co
 ## Tecnologias
 
 [Voltar ao início](#sum%C3%A1rio)
-
 * **Java 21 LTS**
 * **Spring Boot 3**
 * **Apache Kafka**
@@ -42,7 +36,6 @@ Para acessar o curso na plataforma, basta acessar esta URL: https://www.udemy.co
 * **Redpanda Console**
 
 # Ferramentas utilizadas
-
 [Voltar ao início](#sum%C3%A1rio)
 
 * **IntelliJ IDEA Community Edition**
@@ -50,14 +43,9 @@ Para acessar o curso na plataforma, basta acessar esta URL: https://www.udemy.co
 * **Gradle**
 
 # Arquitetura Proposta
-
 [Voltar ao início](#sum%C3%A1rio)
 
-No curso, desenvolveremos a seguinte aquitetura:
-
-![Arquitetura](Conte%C3%BAdos/Arquitetura%20Proposta.png)
-
-Em nossa arquitetura, teremos 5 serviços:
+Arquitetura, 5 serviços:
 
 * **Order-Service**: microsserviço responsável apenas por gerar um pedido inicial, e receber uma notificação. Aqui que teremos endpoints REST para inciar o processo e recuperar os dados dos eventos. O banco de dados utilizado será o MongoDB.
 * **Orchestrator-Service**: microsserviço responsável por orquestrar todo o fluxo de execução da Saga, ele que saberá qual microsserviço foi executado e em qual estado, e para qual será o próximo microsserviço a ser enviado, este microsserviço também irá salvar o processo dos eventos. Este serviço não possui banco de dados.
@@ -68,10 +56,9 @@ Em nossa arquitetura, teremos 5 serviços:
 Todos os serviços da arquitetura irão subir através do arquivo **docker-compose.yml**.
 
 ## Execução do projeto
-
 [Voltar ao início](#sum%C3%A1rio)
 
-Há várias maneiras de executar os projetos:
+Maneiras de executar os projetos:
 
 1. Executando tudo via `docker-compose`
 2. Executando tudo via `script` de automação que eu disponibilizei (`build.py`)
@@ -85,7 +72,6 @@ Para rodar as aplicações, será necessário ter instalado:
 * **Gradle 7.6 ou superior**
 
 ### 01 - Execução geral via docker-compose
-
 [Voltar ao nível anterior](#execu%C3%A7%C3%A3o-do-projeto)
 
 Basta executar o comando no diretório raiz do repositório:
@@ -107,7 +93,6 @@ Para executar, basta apenas executar o seguinte comando no diretório raiz do re
 Será realizado o `build` de todas as aplicações, removidos todos os containers e em sequência, será rodado o `docker-compose`.
 
 ### 03 - Executando os serviços de bancos de dados e Message Broker
-
 [Voltar ao nível anterior](#execu%C3%A7%C3%A3o-do-projeto)
 
 Para que seja possível executar os serviços de bancos de dados e Message Broker, como MongoDB, PostgreSQL e Apache Kafka, basta ir no diretório raiz do repositório, onde encontra-se o arquivo `docker-compose.yml` e executar o comando:
@@ -126,7 +111,6 @@ Ou então:
 `docker container prune -f`
 
 ### 04 - Executando manualmente via CLI
-
 [Voltar ao nível anterior](#execu%C3%A7%C3%A3o-do-projeto)
 
 Antes da execução do projeto, realize o `build` da aplicação indo no diretório raiz e executando o comando:
@@ -142,19 +126,13 @@ Ou então, entrar no diretório: `build/libs` e executar o comando:
 `java -jar nome_do_jar.jar`
 
 ## Acessando a aplicação
-
 [Voltar ao início](#sum%C3%A1rio)
 
 Para acessar as aplicações e realizar um pedido, basta acessar a URL:
 
 http://localhost:3000/swagger-ui.html
 
-Você chegará nesta página:
-
-![Swagger](Conte%C3%BAdos/Documentacao.png)
-
 As aplicações executarão nas seguintes portas:
-
 * Order-Service: 3000
 * Orchestrator-Service: 8080
 * Product-Validation-Service: 8090
@@ -168,25 +146,17 @@ As aplicações executarão nas seguintes portas:
 * MongoDB (Order-DB): 27017
 
 ## Acessando tópicos com Redpanda Console
-
 [Voltar ao início](#sum%C3%A1rio)
 
 Para acessar o Redpanda Console e visualizar tópicos e publicar eventos, basta acessar:
-
 http://localhost:8081
 
-Você chegará nesta página:
-
-![Redpanda](Conte%C3%BAdos/Redpanda%20Kafka.png)
-
 ## Dados da API
-
 [Voltar ao início](#sum%C3%A1rio)
 
 É necessário conhecer o payload de envio ao fluxo da saga, assim como os produtos cadastrados e suas quantidades.
 
 ### Produtos registrados e seu estoque
-
 [Voltar ao nível anterior](#dados-da-api)
 
 Existem 3 produtos iniciais cadastrados no serviço `product-validation-service` e suas quantidades disponíveis em `inventory-service`: 
@@ -197,7 +167,6 @@ Existem 3 produtos iniciais cadastrados no serviço `product-validation-service`
 * **MUSIC** (9 em estoque)
 
 ### Endpoint para iniciar a saga:
-
 [Voltar ao nível anterior](#dados-da-api)
 
 **POST** http://localhost:3000/api/order
@@ -252,13 +221,11 @@ Resposta:
 ```
 
 ### Endpoint para visualizar a saga:
-
 [Voltar ao nível anterior](#dados-da-api)
 
 É possível recuperar os dados da saga pelo **orderId** ou pelo **transactionId**, o resultado será o mesmo:
 
 **GET** http://localhost:3000/api/event?orderId=64429e987a8b646915b3735f
-
 **GET** http://localhost:3000/api/event?transactionId=1682087576536_99d2ca6c-f074-41a6-92e0-21700148b519
 
 Resposta:
@@ -330,7 +297,6 @@ Resposta:
 ```
 
 ### Acesso ao MongoDB
-
 [Voltar ao início](#sum%C3%A1rio)
 
 Para conectar-se ao MongoDB via linha de comando (cli) diretamente do docker-compose, basta executar o comando abaixo:
