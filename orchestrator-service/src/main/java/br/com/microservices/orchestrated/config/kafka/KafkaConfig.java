@@ -1,8 +1,21 @@
 package br.com.microservices.orchestrated.config.kafka;
 
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.BASE_ORCHESTRATOR;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.FINISH_FAIL;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.FINISH_SUCCESS;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.INVENTORY_FAIL;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.INVENTORY_SUCCESS;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.NOTIFY_ENDING;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.PAYMENT_FAIL;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.PAYMENT_SUCCESS;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.PRODUCT_VALIDATION_FAIL;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.PRODUCT_VALIDATION_SUCCESS;
+import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.START_SAGA;
+
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -11,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -21,6 +35,9 @@ import org.springframework.kafka.core.ProducerFactory;
 @Configuration
 @RequiredArgsConstructor
 public class KafkaConfig {
+
+  private static final Integer PARTITION_COUNT = 1;
+  private static final Integer REPLICA_COUNT = 1;
 
   @Value("${spring.kafka.bootstrap-servers}")
   private String bootstrapServers;
@@ -65,4 +82,69 @@ public class KafkaConfig {
   public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> producerFactory) {
     return new KafkaTemplate<>(producerFactory);
   }
+
+  private NewTopic buildTopic(String name) {
+    return TopicBuilder
+        .name(name)
+        .replicas(PARTITION_COUNT)
+        .partitions(REPLICA_COUNT)
+        .build();
+  }
+
+  @Bean
+  public NewTopic startSagaTopic() {
+    return buildTopic(START_SAGA.getTopic());
+  }
+
+
+  @Bean
+  public NewTopic topicFinishSuccess() {
+    return buildTopic(FINISH_SUCCESS.getTopic());
+  }
+
+  @Bean
+  public NewTopic topicFinisFail() {
+    return buildTopic(FINISH_FAIL.getTopic());
+  }
+
+  @Bean
+  public NewTopic topicOrchestrator() {
+    return buildTopic(BASE_ORCHESTRATOR.getTopic());
+  }
+
+  @Bean
+  public NewTopic topicProductValidationSuccess() {
+    return buildTopic(PRODUCT_VALIDATION_SUCCESS.getTopic());
+  }
+
+  @Bean
+  public NewTopic topicProductValidationFail() {
+    return buildTopic(PRODUCT_VALIDATION_FAIL.getTopic());
+  }
+
+  @Bean
+  public NewTopic topicPaymentSuccess() {
+    return buildTopic(PAYMENT_SUCCESS.getTopic());
+  }
+
+  @Bean
+  public NewTopic topicPaymentFail() {
+    return buildTopic(PAYMENT_FAIL.getTopic());
+  }
+
+  @Bean
+  public NewTopic notifyEndingTopic() {
+    return buildTopic(NOTIFY_ENDING.getTopic());
+  }
+
+  @Bean
+  public NewTopic topicInventorySuccess() {
+    return buildTopic(INVENTORY_SUCCESS.getTopic());
+  }
+
+  @Bean
+  public NewTopic topicInventoryFail() {
+    return buildTopic(INVENTORY_FAIL.getTopic());
+  }
+
 }

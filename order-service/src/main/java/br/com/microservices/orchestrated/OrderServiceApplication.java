@@ -1,4 +1,4 @@
-package br.com.microservices.orchestrated.orderservice;
+package br.com.microservices.orchestrated;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

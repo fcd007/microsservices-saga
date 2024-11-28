@@ -1,13 +1,13 @@
-package br.com.microservices.orchestrated.paymentservice;
+package br.com.microservices.orchestrated;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PaymentServiceApplication {
+public class ProductValidationServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PaymentServiceApplication.class, args);
+		SpringApplication.run(ProductValidationServiceApplication.class, args);
 	}
 
 }
