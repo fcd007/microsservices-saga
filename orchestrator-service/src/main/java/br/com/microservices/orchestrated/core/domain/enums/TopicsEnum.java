@@ -1,4 +1,4 @@
-package br.com.microservices.orchestrated.core.enuns;
+package br.com.microservices.orchestrated.core.domain.enums;
 
 import lombok.*;
 
@@ -16,7 +16,7 @@ public enum TopicsEnum {
   PAYMENT_FAIL("payment-fail"),
   INVENTORY_SUCCESS("inventory-success"),
   INVENTORY_FAIL("inventory-fail"),
-  NOTIFY_ENDING("notify-ending"),;
+  NOTIFY_ENDING("notify-ending");
 
   private String topic;
 }

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: microservice-inventory
+    name: inventoryservice
 
   kafka:
     bootstrap-servers: ${KAFKA_BROKER:localhost:9092}

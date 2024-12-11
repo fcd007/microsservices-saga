@@ -1,16 +1,6 @@
 package br.com.microservices.orchestrated.config.kafka;
 
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.BASE_ORCHESTRATOR;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.FINISH_FAIL;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.FINISH_SUCCESS;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.INVENTORY_FAIL;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.INVENTORY_SUCCESS;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.NOTIFY_ENDING;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.PAYMENT_FAIL;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.PAYMENT_SUCCESS;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.PRODUCT_VALIDATION_FAIL;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.PRODUCT_VALIDATION_SUCCESS;
-import static br.com.microservices.orchestrated.core.enuns.TopicsEnum.START_SAGA;
+import static br.com.microservices.orchestrated.core.domain.enums.TopicsEnum.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.TopicBuilder;
-import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.core.*;
 
 @EnableKafka
 @Configuration
@@ -96,6 +82,10 @@ public class KafkaConfig {
     return buildTopic(START_SAGA.getTopic());
   }
 
+  @Bean
+  public NewTopic topicOrchestrator() {
+    return buildTopic(BASE_ORCHESTRATOR.getTopic());
+  }
 
   @Bean
   public NewTopic topicFinishSuccess() {
@@ -105,11 +95,6 @@ public class KafkaConfig {
   @Bean
   public NewTopic topicFinisFail() {
     return buildTopic(FINISH_FAIL.getTopic());
-  }
-
-  @Bean
-  public NewTopic topicOrchestrator() {
-    return buildTopic(BASE_ORCHESTRATOR.getTopic());
   }
 
   @Bean
@@ -133,11 +118,6 @@ public class KafkaConfig {
   }
 
   @Bean
-  public NewTopic notifyEndingTopic() {
-    return buildTopic(NOTIFY_ENDING.getTopic());
-  }
-
-  @Bean
   public NewTopic topicInventorySuccess() {
     return buildTopic(INVENTORY_SUCCESS.getTopic());
   }
@@ -147,4 +127,8 @@ public class KafkaConfig {
     return buildTopic(INVENTORY_FAIL.getTopic());
   }
 
+  @Bean
+  public NewTopic notifyEndingTopic() {
+    return buildTopic(NOTIFY_ENDING.getTopic());
+  }
 }
